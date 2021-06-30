@@ -1,13 +1,12 @@
 using System;
-namespace Catalog.Entities
+namespace Catalog.Dtos
 {
-    public record Item
+    public class ItemDto
     {
         public Guid Id { get; init; }
         public string Name { get; set; }
         public decimal Price { get; init; }
 
         public DateTimeOffset CreatedDate { get; init; }
-
     }
 }
