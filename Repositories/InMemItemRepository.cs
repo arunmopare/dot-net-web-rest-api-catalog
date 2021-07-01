@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Catalog.Entities;
 namespace Catalog.Repositories
 {
-  
+
 
     public class InMemItemRepository : IItemRepository
     {
@@ -54,5 +54,15 @@ namespace Catalog.Repositories
             return items.Where(item => item.Id == id).SingleOrDefault();
         }
 
+        public void createItem(Item item)
+        {
+            items.Add(item);
+        }
+
+        public void updateItem(Item item)
+        {
+            var index = items.FindIndex(existingItem => existingItem.Id == item.Id);
+            items[index] = item;
+        }
     }
 }

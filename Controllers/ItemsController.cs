@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -40,5 +41,21 @@ namespace Catalog.Controller
             return item.AsDto();
         }
 
+        //GET /items
+        [HttpPost]
+        public ActionResult<ItemDto> CreateItem(CreateItemDto itemDto)
+        {
+            Item item = new()
+            {
+                Id = Guid.NewGuid(),
+                Name = itemDto.Name,
+                Price = itemDto.Price,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
+
+            repository.createItem(item);
+            return CreatedAtAction(nameof(GetItem), new { id = item.Id }, item.AsDto());
+
+        }
     }
 }
