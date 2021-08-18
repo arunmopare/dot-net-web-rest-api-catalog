@@ -64,10 +64,35 @@ namespace Catalog.Controller
         [HttpPut("{id}")]
         public ActionResult updateItem(Guid id, UpdateItemDto itemDto)
         {
-            var exutingItem = repository.GetItem(id);
+            var exitingItem = repository.GetItem(id);
+            if (exitingItem == null)
+            {
+                return NotFound();
+            }
 
-            return;
+            Item updateditem = exitingItem with
+            {
 
+                Name = itemDto.Name,
+                Price = itemDto.Price
+            };
+            repository.updateItem(updateditem);
+            return NoContent();
+
+        }
+
+        // DELETE /items/
+        [HttpDelete("{id}")]
+        public ActionResult DeleteItem(Guid id)
+        {
+            var existingItem = repository.GetItem(id);
+
+            if (existingItem == null)
+            {
+                return NotFound();
+            }
+            repository.deleteItem(id);
+            return NoContent();
         }
     }
 }
