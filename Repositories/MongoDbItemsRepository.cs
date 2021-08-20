@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using Catalog.Entities;
@@ -24,33 +25,33 @@ namespace Catalog.Repositories
 
         }
 
-        public void createItem(Item item)
+        public async Task createItemAsync(Item item)
         {
-            itemsCollection.InsertOne(item);
+            await itemsCollection.InsertOneAsync(item);
         }
 
-        public Item GetItem(Guid id)
+        public async Task<Item> GetItemAsync(Guid id)
         {
             var filter = filterDefinitionBuilder.Eq(item => item.Id, id);
 
-            return itemsCollection.Find(filter).SingleOrDefault();
+            return await itemsCollection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public IEnumerable<Item> GetItems()
+        public async Task<IEnumerable<Item>> GetItemsAsync()
         {
-            return itemsCollection.Find(new BsonDocument()).ToList();
+            return await itemsCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        public void updateItem(Item item)
+        public async Task updateItemAsync(Item item)
         {
             var filter = filterDefinitionBuilder.Eq(existingItem => existingItem.Id, item.Id);
-            itemsCollection.ReplaceOne(filter, item);
+            await itemsCollection.ReplaceOneAsync(filter, item);
         }
 
-        public void deleteItem(Guid id)
+        public async Task deleteItemAsync(Guid id)
         {
             var filter = filterDefinitionBuilder.Eq(existingItem => existingItem.Id, id);
-            itemsCollection.DeleteOne(filter);
+            await itemsCollection.DeleteOneAsync(filter);
         }
     }
 }
